@@ -39,7 +39,8 @@ class _SosEmergencyPageState extends State<SosEmergencyPage> {
       context: context,
       builder: (ctx) {
         return AlertDialog(
-          title: const Text('Send Location To'),
+          backgroundColor: Colors.white,
+          title: const Text('Send Location To', style: TextStyle(color: Colors.teal, fontWeight: FontWeight.bold)),
           content: StatefulBuilder(
             builder: (context, setState) {
               return SizedBox(
@@ -53,8 +54,9 @@ class _SosEmergencyPageState extends State<SosEmergencyPage> {
                         itemCount: contacts.length,
                         itemBuilder: (_, i) {
                           return CheckboxListTile(
-                            title: Text(contacts[i].name),
+                            title: Text(contacts[i].name, style: TextStyle(color: Colors.teal[700], fontWeight: FontWeight.w500)),
                             value: selected[i],
+                            activeColor: Colors.orange,
                             onChanged: (val) {
                               setState(() {
                                 selected[i] = val ?? false;
@@ -65,15 +67,17 @@ class _SosEmergencyPageState extends State<SosEmergencyPage> {
                       ),
                     ),
                     CheckboxListTile(
-                      title: const Text('Send SMS'),
+                      title: const Text('Send SMS', style: TextStyle(color: Colors.deepOrange)),
                       value: sendSms,
+                      activeColor: Colors.deepOrange,
                       onChanged: (val) {
                         setState(() => sendSms = val ?? false);
                       },
                     ),
                     CheckboxListTile(
-                      title: const Text('Send WhatsApp'),
+                      title: const Text('Send WhatsApp', style: TextStyle(color: Colors.green)),
                       value: sendWhatsapp,
+                      activeColor: Colors.green,
                       onChanged: (val) {
                         setState(() => sendWhatsapp = val ?? false);
                       },
@@ -86,7 +90,7 @@ class _SosEmergencyPageState extends State<SosEmergencyPage> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(ctx),
-              child: const Text('Cancel'),
+              child: const Text('Cancel', style: TextStyle(color: Colors.teal)),
             ),
             TextButton(
               onPressed: () async {
@@ -95,8 +99,7 @@ class _SosEmergencyPageState extends State<SosEmergencyPage> {
                   if (selected[i]) {
                     final phone = contacts[i].phone;
                     if (sendSms) {
-                      final smsUri = Uri(
-                          scheme: 'sms', path: phone, queryParameters: {'body': locationMessage});
+                      final smsUri = Uri(scheme: 'sms', path: phone, queryParameters: {'body': locationMessage});
                       if (await canLaunchUrl(smsUri)) {
                         await launchUrl(smsUri);
                       }
@@ -111,7 +114,7 @@ class _SosEmergencyPageState extends State<SosEmergencyPage> {
                   }
                 }
               },
-              child: const Text('Send'),
+              child: const Text('Send', style: TextStyle(color: Colors.orange)),
             ),
           ],
         );
@@ -181,13 +184,17 @@ class _SosEmergencyPageState extends State<SosEmergencyPage> {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: const Text('Edit Contact'),
+        backgroundColor: Colors.white,
+        title: const Text('Edit Contact', style: TextStyle(color: Colors.orange)),
         content: SingleChildScrollView(
           child: Column(
             children: [
-              TextField(controller: nameController, decoration: const InputDecoration(labelText: 'Name')),
-              TextField(controller: relationController, decoration: const InputDecoration(labelText: 'Relation')),
-              TextField(controller: phoneController, decoration: const InputDecoration(labelText: 'Phone')),
+              TextField(controller: nameController,
+                decoration: const InputDecoration(labelText: 'Name', filled: true, fillColor: Color(0xFFEFF7EE)),),
+              TextField(controller: relationController,
+                decoration: const InputDecoration(labelText: 'Relation', filled: true, fillColor: Color(0xFFEFF7EE)),),
+              TextField(controller: phoneController,
+                decoration: const InputDecoration(labelText: 'Phone', filled: true, fillColor: Color(0xFFEFF7EE)),),
             ],
           ),
         ),
@@ -198,14 +205,13 @@ class _SosEmergencyPageState extends State<SosEmergencyPage> {
                 contacts[index] = SimpleEmergencyContact(
                   name: nameController.text,
                   relation: relationController.text,
-                  phone: phoneController.text,
-                );
+                  phone: phoneController.text,);
               });
               Navigator.pop(context);
             },
-            child: const Text('Save'),
+            child: const Text('Save', style: TextStyle(color: Colors.orange)),
           ),
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
+          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel', style: TextStyle(color: Colors.teal))),
         ],
       ),
     );
@@ -225,13 +231,17 @@ class _SosEmergencyPageState extends State<SosEmergencyPage> {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: const Text('Add New Contact'),
+        backgroundColor: Colors.white,
+        title: const Text('Add New Contact', style: TextStyle(color: Colors.teal)),
         content: SingleChildScrollView(
           child: Column(
             children: [
-              TextField(controller: nameController, decoration: const InputDecoration(labelText: 'Name')),
-              TextField(controller: relationController, decoration: const InputDecoration(labelText: 'Relation')),
-              TextField(controller: phoneController, decoration: const InputDecoration(labelText: 'Phone')),
+              TextField(controller: nameController,
+                decoration: const InputDecoration(labelText: 'Name', filled: true, fillColor: Color(0xFFEFF7EE)),),
+              TextField(controller: relationController,
+                decoration: const InputDecoration(labelText: 'Relation', filled: true, fillColor: Color(0xFFEFF7EE)),),
+              TextField(controller: phoneController,
+                decoration: const InputDecoration(labelText: 'Phone', filled: true, fillColor: Color(0xFFEFF7EE)),),
             ],
           ),
         ),
@@ -248,11 +258,11 @@ class _SosEmergencyPageState extends State<SosEmergencyPage> {
                 Navigator.pop(context);
               }
             },
-            child: const Text('Add'),
+            child: const Text('Add', style: TextStyle(color: Colors.orange)),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: const Text('Cancel', style: TextStyle(color: Colors.teal)),
           ),
         ],
       ),
@@ -262,15 +272,16 @@ class _SosEmergencyPageState extends State<SosEmergencyPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFE6F7EF), // subtle mint
       appBar: AppBar(
-        title: const Text('SOS Emergency Mode'),
-        backgroundColor: Colors.redAccent,
-        leading: BackButton(),
+        title: const Text('SOS Emergency Mode', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
+        backgroundColor: const Color(0xFF4CAF50), // Android/Material Green
+        elevation: 0,
+        leading: BackButton(color: Colors.white),
       ),
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset('assets/image.jpeg', fit: BoxFit.cover),
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(16),
@@ -278,72 +289,72 @@ class _SosEmergencyPageState extends State<SosEmergencyPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Card(
-                    color: Colors.red[600],
+                    color: const Color(0xFF4CAF50).withOpacity(0.85), // strong green with slight transparency
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+                    elevation: 2,
                     child: Padding(
-                      padding: const EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Immediate Police Contact',
-                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16)),
-                          const SizedBox(height: 8),
+                          const Text('Immediate Police Contact', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16)),
+                          const SizedBox(height: 10),
                           ElevatedButton(
-                            style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
-                            onPressed: () => callPhone('102'),
-                            child: const Text('CALL 102 EMERGENCY'),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF4CAF50),
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 28),
+                              elevation: 1,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                            ),
+                            onPressed: () => callPhone('100'),
+                            child: const Text('CALL 100 EMERGENCY', style: TextStyle(color: Colors.white)),
                           ),
-                          const SizedBox(height: 6),
+                          const SizedBox(height: 10),
                           Row(
                             children: [
                               TextButton(
-                                onPressed: () => callPhone('102'),
-                                child: const Text('Police: 102', style: TextStyle(color: Colors.white)),
+                                onPressed: () => callPhone('100'),
+                                child: const Text('Police: 100', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
                               ),
                               const SizedBox(width: 16),
                               TextButton(
                                 onPressed: () => callPhone('1091'),
-                                child: const Text('Domestic Violence Hotline', style: TextStyle(color: Colors.white)),
+                                child: const Text('Domestic Violence Hotline', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
                               )
                             ],
                           ),
                           const SizedBox(height: 4),
                           const Text(
                             'When to call: Immediate physical danger, active surveillance, perpetrator present, or when you feel unsafe.',
-                            style: TextStyle(color: Colors.white70, fontSize: 12),
+                            style: TextStyle(color: Colors.white, fontSize: 12),
                           ),
                         ],
                       ),
                     ),
                   ),
-                  const SizedBox(height: 16),
-                  const Text('Emergency Contacts',
-                      style: TextStyle(color: Colors.orange, fontWeight: FontWeight.bold, fontSize: 18)),
+                  const SizedBox(height: 14),
+                  const Text('Emergency Contacts', style: TextStyle(color: Colors.orange, fontWeight: FontWeight.bold, fontSize: 18)),
                   Expanded(
                     child: ListView.builder(
                       itemCount: contacts.length,
                       itemBuilder: (context, index) {
                         final c = contacts[index];
                         return Card(
-                          margin: const EdgeInsets.symmetric(vertical: 6),
+                          margin: const EdgeInsets.symmetric(vertical: 8),
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                          elevation: 2,
                           child: ListTile(
-                            leading: const Icon(Icons.phone),
-                            title: Text(c.name,
-                                style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-                            subtitle: Text('${c.relation} - ${c.phone}', style: const TextStyle(color: Colors.black)),
+                            leading: const Icon(Icons.phone, color: Colors.orange, size: 26),
+                            title: Text(c.name, style: const TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
+                            subtitle: Text('${c.relation} - ${c.phone}', style: const TextStyle(color: Colors.black54)),
                             trailing: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                IconButton(
-                                    icon: const Icon(Icons.edit, color: Colors.amber),
-                                    onPressed: () => editContact(index)),
-                                IconButton(
-                                  icon: const Icon(Icons.delete, color: Colors.red),
-                                  onPressed: () => deleteContact(index),
-                                ),
-                                IconButton(
-                                  icon: const Icon(Icons.call, color: Colors.green),
-                                  onPressed: () => callPhone(c.phone),
-                                ),
+                                IconButton(icon: const Icon(Icons.edit, color: Colors.amber, size: 20), onPressed: () => editContact(index)),
+                                IconButton(icon: const Icon(Icons.delete, color: Colors.red, size: 20), onPressed: () => deleteContact(index)),
+                                IconButton(icon: const Icon(Icons.call, color: Colors.green, size: 20), onPressed: () => callPhone(c.phone)),
                               ],
                             ),
                           ),
@@ -354,37 +365,37 @@ class _SosEmergencyPageState extends State<SosEmergencyPage> {
                   Center(
                     child: IconButton(
                       onPressed: addNewContact,
-                      icon: const Icon(Icons.add_circle, color: Colors.teal, size: 42),
+                      icon: const Icon(Icons.add_circle, color: Color(0xFF4CAF50), size: 38),
                       tooltip: 'Add Emergency Contact',
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 16),
                   Center(
                     child: ElevatedButton.icon(
                       onPressed: shareLocation,
                       icon: const Icon(Icons.share_location),
-                      label: const Text('Share Location'),
+                      label: const Text('Share Location', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.greenAccent[700],
+                        backgroundColor: const Color(0xFF4CAF50),
                         foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24),
-                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 34, vertical: 14),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(22)),
+                        elevation: 2,
                       ),
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 14),
                   Center(
                     child: ElevatedButton(
                       onPressed: activateSOSAlert,
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.redAccent,
-                          padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 18),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(36))),
-                      child: const Text('ACTIVATE SOS ALERT',
-                          style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold)),
+                        backgroundColor: Colors.orange,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 18),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(36)),
+                        elevation: 3,
+                      ),
+                      child: const Text('ACTIVATE SOS ALERT', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, letterSpacing: 1)),
                     ),
                   ),
                 ],
