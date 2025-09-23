@@ -32,7 +32,7 @@ class _LocationTrackerHomeState extends State<LocationTrackerHome> {
   );
 
   bool _isInHighRiskZone = false;
-  String _geofenceStatus = 'Outside safe zone';
+  String _geofenceStatus = 'hooray!! in safe zone';
 
   // Define high-risk zone coordinates (example)
   final double _highRiskLatitude = 40.7580;

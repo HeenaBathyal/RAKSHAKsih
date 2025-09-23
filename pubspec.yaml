@@ -25,6 +25,7 @@ dependencies:
   geofence_service: ^6.0.0+1
   vibration: ^3.1.4
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
