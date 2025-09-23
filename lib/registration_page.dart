@@ -14,6 +14,14 @@ class EmergencyContact {
   TextEditingController phoneController = TextEditingController();
 }
 
+// Simple model for passing contact info
+class SimpleEmergencyContact {
+  final String name;
+  final String phone;
+  final String relation;
+  SimpleEmergencyContact({required this.name, required this.phone, required this.relation});
+}
+
 class SinglePageRegistration extends StatefulWidget {
   const SinglePageRegistration({super.key});
 
@@ -126,10 +134,20 @@ class _SinglePageRegistrationState extends State<SinglePageRegistration> {
       );
       return;
     }
-    // Navigate directly to DashboardPage, pass name
+
+    // Convert emergencyContacts to list of simple objects for passing
+    final simpleContacts = emergencyContacts.map((ec) => SimpleEmergencyContact(
+      name: ec.nameController.text.trim(),
+      phone: ec.phoneController.text.trim(),
+      relation: ec.relationController.text.trim(),
+    )).toList();
+
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (_) => DashboardPage(userName: nameController.text.trim()),
+        builder: (_) => DashboardPage(
+          userName: nameController.text.trim(),
+          emergencyContacts: simpleContacts,
+        ),
       ),
     );
   }
@@ -323,7 +341,6 @@ class _SinglePageRegistrationState extends State<SinglePageRegistration> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Side vertical step indicator
                   Column(
                     mainAxisSize: MainAxisSize.min,
                     children: List.generate(totalSteps, buildStepIndicator),
@@ -344,7 +361,8 @@ class _SinglePageRegistrationState extends State<SinglePageRegistration> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text('KYC Details', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                                  const Text('KYC Details',
+                                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                                   const SizedBox(height: 10),
                                   TextFormField(
                                     controller: aadhaarController,
@@ -405,6 +423,11 @@ class _SinglePageRegistrationState extends State<SinglePageRegistration> {
                                         ElevatedButton(
                                           onPressed: onNext,
                                           child: const Text('Next'),
+                                        ),
+                                      if (_currentStep == totalSteps - 1)
+                                        ElevatedButton(
+                                          onPressed: onRegister,
+                                          child: const Text('Register'),
                                         ),
                                     ],
                                   ),
@@ -533,9 +556,7 @@ class _SinglePageRegistrationState extends State<SinglePageRegistration> {
                                   DropdownButtonFormField<String>(
                                     decoration: const InputDecoration(labelText: 'Preferred Language'),
                                     value: selectedLanguage,
-                                    items: languages
-                                        .map((lang) => DropdownMenuItem(child: Text(lang), value: lang))
-                                        .toList(),
+                                    items: languages.map((lang) => DropdownMenuItem(child: Text(lang), value: lang)).toList(),
                                     onChanged: (val) => setState(() => selectedLanguage = val),
                                     validator: (val) => val == null ? 'Select a language' : null,
                                   ),

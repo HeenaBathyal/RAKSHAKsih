@@ -1,10 +1,12 @@
-import 'sos_alert_page.dart';
 import 'package:flutter/material.dart';
+import 'sos_alert_page.dart';
+import 'registration_page.dart'; // Import SimpleEmergencyContact model
 
 class DashboardPage extends StatelessWidget {
   final String userName;
+  final List<SimpleEmergencyContact> emergencyContacts;
 
-  const DashboardPage({super.key, required this.userName});
+  const DashboardPage({super.key, required this.userName, required this.emergencyContacts});
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +81,11 @@ class DashboardPage extends StatelessWidget {
                           color: Colors.redAccent,
                           onTap: () {
                             Navigator.of(context).push(
-                              MaterialPageRoute(builder: (_) => SosAlertPage()),
+                              MaterialPageRoute(
+                                builder: (_) => SosEmergencyPage(
+                                  emergencyContacts: emergencyContacts,
+                                ),
+                              ),
                             );
                           },
                         ),
@@ -88,7 +94,7 @@ class DashboardPage extends StatelessWidget {
                           label: 'Alerts',
                           color: Colors.orangeAccent,
                           onTap: () {
-                            // View alert history
+                            // TODO: Implement view alert history
                           },
                         ),
                         _dashboardButton(
@@ -96,7 +102,7 @@ class DashboardPage extends StatelessWidget {
                           label: 'Itinerary',
                           color: Colors.blueAccent,
                           onTap: () {
-                            // Show trip itinerary
+                            // TODO: Implement show trip itinerary
                           },
                         ),
                         _dashboardButton(
@@ -104,7 +110,7 @@ class DashboardPage extends StatelessWidget {
                           label: 'Profile',
                           color: Colors.purpleAccent,
                           onTap: () {
-                            // User profile & info
+                            // TODO: Implement user profile & info
                           },
                         ),
                         _dashboardButton(
@@ -112,7 +118,7 @@ class DashboardPage extends StatelessWidget {
                           label: 'Settings',
                           color: Colors.tealAccent,
                           onTap: () {
-                            // App preferences & language
+                            // TODO: Implement app preferences & language
                           },
                         ),
                       ],
