@@ -23,7 +23,9 @@ class SimpleEmergencyContact {
 }
 
 class SinglePageRegistration extends StatefulWidget {
-  const SinglePageRegistration({super.key});
+  final void Function(String userName, List<String> itinerary) onRegistered;
+
+  const SinglePageRegistration({super.key, required this.onRegistered});
 
   @override
   State<SinglePageRegistration> createState() => _SinglePageRegistrationState();
@@ -143,13 +145,14 @@ class _SinglePageRegistrationState extends State<SinglePageRegistration> {
     )).toList();
 
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (_) => DashboardPage(
-          userName: nameController.text.trim(),
-          emergencyContacts: simpleContacts,
-        ),
-      ),
-    );
+        MaterialPageRoute(
+          builder: (_) => DashboardPage(
+            userName: nameController.text.trim(),
+            emergencyContacts: simpleContacts, userItinerary: [],
+          ),
+        ));
+        // Call the onRegistered callback with name and itinerary list
+
   }
 
   Widget buildStepIndicator(int step) {
