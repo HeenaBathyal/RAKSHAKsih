@@ -43,6 +43,7 @@ class _SinglePageRegistrationState extends State<SinglePageRegistration> {
   final TextEditingController aadhaarController = TextEditingController();
   final TextEditingController passportController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController(); // NEW phone controller
   final TextEditingController nationalityController = TextEditingController();
   String? gender;
   final TextEditingController ageController = TextEditingController();
@@ -65,6 +66,7 @@ class _SinglePageRegistrationState extends State<SinglePageRegistration> {
     aadhaarController.dispose();
     passportController.dispose();
     nameController.dispose();
+    phoneController.dispose(); // Dispose phone controller
     nationalityController.dispose();
     ageController.dispose();
 
@@ -385,6 +387,17 @@ class _SinglePageRegistrationState extends State<SinglePageRegistration> {
                                     controller: nameController,
                                     decoration: const InputDecoration(labelText: 'Full Name'),
                                     validator: (v) => v == null || v.isEmpty ? 'Enter your name' : null,
+                                  ),
+                                  TextFormField(
+                                    controller: phoneController, // NEW PHONE FIELD
+                                    maxLength: 10,
+                                    keyboardType: TextInputType.phone,
+                                    decoration: const InputDecoration(labelText: 'Phone Number'),
+                                    validator: (v) {
+                                      if (v == null || v.isEmpty) return 'Enter phone number';
+                                      if (v.length != 10) return 'Phone number must be 10 digits';
+                                      return null;
+                                    },
                                   ),
                                   TextFormField(
                                     controller: nationalityController,
